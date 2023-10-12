@@ -18,10 +18,15 @@ class ARENABATTLE_API AABPlayerController : public APlayerController
 	
 public:
 	AABPlayerController();
-	
+
+	//virtual void SetPawn(APawn* InPawn) override;
+
 protected:
+	//virtual void PostInitializeComponents() override;
+	virtual void PostNetInit() override;
 	virtual void BeginPlay() override;
-	
+	virtual void OnPossess(APawn* InPawn) override;
+
 // HUD Section
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HUD)

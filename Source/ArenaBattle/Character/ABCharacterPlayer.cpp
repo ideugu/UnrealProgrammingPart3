@@ -11,6 +11,7 @@
 #include "UI/ABHUDWidget.h"
 #include "CharacterStat/ABCharacterStatComponent.h"
 #include "Interface/ABGameInterface.h"
+#include "ArenaBattle.h"
 
 AABCharacterPlayer::AABCharacterPlayer()
 {
@@ -64,9 +65,22 @@ AABCharacterPlayer::AABCharacterPlayer()
 	CurrentCharacterControlType = ECharacterControlType::Quater;
 }
 
+//void AABCharacterPlayer::PostInitializeComponents()
+//{
+//	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+//
+//	Super::PostInitializeComponents();
+//
+//	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("End"), *GetName());
+//}
+
 void AABCharacterPlayer::BeginPlay()
 {
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+
 	Super::BeginPlay();
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("End"), *GetName());
 
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 	if (PlayerController)
@@ -75,6 +89,53 @@ void AABCharacterPlayer::BeginPlay()
 	}
 
 	SetCharacterControl(CurrentCharacterControlType);
+}
+
+void AABCharacterPlayer::PossessedBy(AController* NewController)
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+	AActor* OwnerActor = GetOwner();
+	if (OwnerActor)
+	{
+		AB_LOG(LogABNetwork, Log, TEXT("Owner : %s"), *OwnerActor->GetName());
+	}
+	else
+	{
+		AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No Owner"));
+	}
+
+	Super::PossessedBy(NewController);
+
+	OwnerActor = GetOwner();
+	if (OwnerActor)
+	{
+		AB_LOG(LogABNetwork, Log, TEXT("Owner : %s"), *OwnerActor->GetName());
+	}
+	else
+	{
+		AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No Owner"));
+	}
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("End"), *GetName());
+
+}
+
+void AABCharacterPlayer::OnRep_Owner()
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+
+	Super::OnRep_Owner();
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("End"), *GetName());
+}
+
+void AABCharacterPlayer::PostNetInit()
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+
+	Super::PostNetInit();
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
 }
 
 void AABCharacterPlayer::SetDead()

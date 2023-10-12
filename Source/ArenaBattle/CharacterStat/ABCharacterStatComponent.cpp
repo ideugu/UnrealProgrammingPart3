@@ -3,6 +3,7 @@
 
 #include "CharacterStat/ABCharacterStatComponent.h"
 #include "GameData/ABGameSingleton.h"
+#include "ArenaBattle.h"
 
 // Sets default values for this component's properties
 UABCharacterStatComponent::UABCharacterStatComponent()
@@ -17,9 +18,34 @@ void UABCharacterStatComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
 
+	//AActor* OwnerActor = Cast<AActor>(GetOuter());
+	//if (OwnerActor)
+	//{
+	//	AB_LOG(LogABNetwork, Log, TEXT("Owner : %s"), *OwnerActor->GetName());
+	//}
+	//else
+	//{
+	//	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No Owner"));
+	//}
+
 	SetLevelStat(CurrentLevel);
 	SetHp(BaseStat.MaxHp);
 }
+
+//void UABCharacterStatComponent::BeginPlay()
+//{
+//	Super::BeginPlay(); 
+//
+//	AActor* OwnerActor = Cast<AActor>(GetOuter());
+//	if (OwnerActor)
+//	{
+//		AB_LOG(LogABNetwork, Log, TEXT("Owner : %s"), *OwnerActor->GetName());
+//	}
+//	else
+//	{
+//		AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No Owner"));
+//	}
+//}
 
 void UABCharacterStatComponent::SetLevelStat(int32 InNewLevel)
 {
