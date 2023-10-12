@@ -22,5 +22,6 @@ class ARENABATTLE_API IABGameInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void OnPlayerDead() = 0;
+	virtual FTransform GetRandomStartTransform() const = 0;
+	virtual void OnPlayerKilled(AController* Killer, AController* KilledPlayer, APawn* KilledPawn) = 0;
 };

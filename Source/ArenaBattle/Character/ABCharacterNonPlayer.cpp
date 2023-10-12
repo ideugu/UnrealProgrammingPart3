@@ -6,7 +6,8 @@
 #include "AI/ABAIController.h"
 #include "CharacterStat/ABCharacterStatComponent.h"
 
-AABCharacterNonPlayer::AABCharacterNonPlayer()
+AABCharacterNonPlayer::AABCharacterNonPlayer(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	GetMesh()->SetHiddenInGame(true);
 
@@ -20,7 +21,7 @@ void AABCharacterNonPlayer::PostInitializeComponents()
 
 	ensure(NPCMeshes.Num() > 0);
 	int32 RandIndex = FMath::RandRange(0, NPCMeshes.Num() - 1);
-	NPCMeshHandle = UAssetManager::Get().GetStreamableManager().RequestAsyncLoad(NPCMeshes[RandIndex], FStreamableDelegate::CreateUObject(this, &AABCharacterNonPlayer::NPCMeshLoadCompleted));
+	MeshHandle = UAssetManager::Get().GetStreamableManager().RequestAsyncLoad(NPCMeshes[RandIndex], FStreamableDelegate::CreateUObject(this, &AABCharacterBase::MeshLoadCompleted));
 }
 
 void AABCharacterNonPlayer::SetDead()
@@ -40,21 +41,6 @@ void AABCharacterNonPlayer::SetDead()
 			Destroy();
 		}
 	), DeadEventDelayTime, false);
-}
-
-void AABCharacterNonPlayer::NPCMeshLoadCompleted()
-{
-	if (NPCMeshHandle.IsValid())
-	{
-		USkeletalMesh* NPCMesh = Cast<USkeletalMesh>(NPCMeshHandle->GetLoadedAsset());
-		if (NPCMesh)
-		{
-			GetMesh()->SetSkeletalMesh(NPCMesh);
-			GetMesh()->SetHiddenInGame(false);
-		}
-	}
-
-	NPCMeshHandle->ReleaseHandle();
 }
 
 float AABCharacterNonPlayer::GetAIPatrolRadius()

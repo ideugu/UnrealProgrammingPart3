@@ -29,4 +29,39 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 	TObjectPtr<class UStaticMeshComponent> Water;
 
+public:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	//virtual void OnActorChannelOpen(class FInBunch& InBunch, class UNetConnection* Connection) override;
+	//virtual bool IsNetRelevantFor(const AActor* RealViewer, const AActor* ViewTarget, const FVector& SrcLocation) const override;
+	//virtual void PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) override;
+
+	UPROPERTY(ReplicatedUsing = OnRep_ServerRotationYaw)
+	float ServerRotationYaw;
+
+	UPROPERTY(ReplicatedUsing = OnRep_ServerLightColor)
+	FLinearColor ServerLightColor;
+	//UPROPERTY(Replicated)
+	//TArray<float> BigData;
+
+	UFUNCTION()
+	void OnRep_ServerRotationYaw();
+
+	UFUNCTION()
+	void OnRep_ServerLightColor();
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastRPCChangeLightColor(const FLinearColor& NewLightColor);
+
+	UFUNCTION(Server, Unreliable, WithValidation)
+	void ServerRPCChangeLightColor();
+
+	UFUNCTION(Client, Unreliable)
+	void ClientRPCChangeLightColor(const FLinearColor& NewLightColor);
+
+	float RotationRate = 30.0f;
+	float ClientTimeSinceUpdate = 0.0f;
+	float ClientTimeBetweenLastUpdate = 0.0f;
+
+	//float BigDataElement = 0.0f;
+
 };

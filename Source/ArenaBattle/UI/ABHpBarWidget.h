@@ -22,8 +22,8 @@ protected:
 	virtual void NativeConstruct() override;
 
 public:
-	void UpdateStat(const FABCharacterStat& BaseStat, const FABCharacterStat& ModifierStat);
-	void UpdateHpBar(float NewCurrentHp);
+	//void UpdateStat(const FABCharacterStat& BaseStat, const FABCharacterStat& ModifierStat);
+	void UpdateHpBar(float NewCurrentHp, float MaxHp);
 	FString GetHpStatText();
 
 protected:

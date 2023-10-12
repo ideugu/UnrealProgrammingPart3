@@ -1,0 +1,1 @@
+UnrealEditor.exe %cd%\ArenaBattle.uproject -NetTrace=1 -Trace=Net

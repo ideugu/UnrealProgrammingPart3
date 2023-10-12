@@ -17,19 +17,17 @@ class ARENABATTLE_API AABCharacterNonPlayer : public AABCharacterBase, public IA
 	GENERATED_BODY()
 	
 public:
-	AABCharacterNonPlayer();
+	AABCharacterNonPlayer(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void PostInitializeComponents() override;
 
 protected:
 	void SetDead() override;
-	void NPCMeshLoadCompleted();
 
 	UPROPERTY(config)
 	TArray<FSoftObjectPath> NPCMeshes;
-	
-	TSharedPtr<FStreamableHandle> NPCMeshHandle;
+
 
 // AI Section
 protected:
